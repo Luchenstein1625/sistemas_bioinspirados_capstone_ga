@@ -1,0 +1,28 @@
+{
+  "seed": 42,
+  "config": {
+    "budget": 20,
+    "population": 80,
+    "generations": 120,
+    "crossover_rate": 0.85,
+    "mutation_rate": 0.03,
+    "elite": 4,
+    "tournament": 4
+  },
+  "hard_safety_constraints": {
+    "Estado": "Success",
+    "Performance": "1",
+    "errorCount": 0,
+    "p95_ms": "0 < p95 <= 1500"
+  },
+  "weights": {
+    "pilar_diversity": 0.3,
+    "component_diversity": 0.2,
+    "quadrant_diversity": 0.15,
+    "historical_quality": 0.2,
+    "configuration_diversity": 0.1,
+    "build_coverage": 0.05,
+    "redundancy_penalty": 0.1
+  },
+  "warning": "Weights are academic assumptions; selected upgrades require specialist approval and new Gatling executions."
+}

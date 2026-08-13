@@ -1,0 +1,39 @@
+{
+  "candidate_count": 113,
+  "budget": 20,
+  "fitness": 0.99026833,
+  "fitness_components": {
+    "pilar_coverage": 1.0,
+    "component_coverage": 1.0,
+    "quadrant_coverage": 1.0,
+    "configuration_coverage": 1.0,
+    "build_coverage": 1.0,
+    "mean_historical_quality": 0.951342,
+    "redundancy": 0.0
+  },
+  "selected_indexes": [
+    0,
+    12,
+    13,
+    40,
+    44,
+    45,
+    56,
+    59,
+    62,
+    71,
+    77,
+    81,
+    83,
+    84,
+    85,
+    86,
+    92,
+    97,
+    105,
+    111
+  ],
+  "safety_constraints_satisfied": true,
+  "online_validation_status": "pending_new_execution",
+  "human_approval_required": true
+}
