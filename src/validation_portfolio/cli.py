@@ -64,7 +64,9 @@ def main() -> None:
         independent.append({"run": run + 1, "seed": options.seed + run, "fitness": result.fitness})
     best, history, optimizer = max(run_results, key=lambda item: item[0].fitness)
     greedy = greedy_solution(optimizer)
-    random_scores = [optimizer.evaluate(optimizer.random_chromosome()).fitness for _ in range(100)]
+    # Baseline aleatorio con RNG propio, independiente del estado dejado por
+    # la corrida evolutiva (ver PortfolioOptimizer.random_baseline).
+    random_scores = optimizer.random_baseline(samples=100)
     random_mean = sum(random_scores) / len(random_scores)
 
     rows = selected_rows(best, candidates)
@@ -76,7 +78,7 @@ def main() -> None:
 
     solution = {"candidate_count": len(candidates), "budget": options.budget, "fitness": best.fitness, "fitness_components": best.details, "selected_indexes": [i for i, bit in enumerate(best.chromosome) if bit], "safety_constraints_satisfied": True, "online_validation_status": "pending_new_execution", "human_approval_required": True}
     (options.output_dir / "best_solution.json").write_text(json.dumps(solution, indent=2, ensure_ascii=False), encoding="utf-8")
-    methodology = {"seed": options.seed, "config": config.__dict__, "hard_safety_constraints": {"Estado": "Success", "Performance": "1", "errorCount": 0, "p95_ms": "0 < p95 <= 1500"}, "weights": {"pilar_diversity": 0.30, "component_diversity": 0.20, "quadrant_diversity": 0.15, "historical_quality": 0.20, "configuration_diversity": 0.10, "build_coverage": 0.05, "redundancy_penalty": 0.10}, "warning": "Weights are academic assumptions; selected upgrades require specialist approval and new Gatling executions."}
+    methodology = {"seed": options.seed, "config": config.__dict__, "hard_safety_constraints": {"Estado": "Success", "Performance": "1", "errorCount": 0, "p95_ms": "0 < p95 <= 1500"}, "weights": {"pilar_diversity": 0.30, "component_diversity": 0.20, "quadrant_diversity": 0.15, "historical_quality": 0.20, "configuration_diversity": 0.10, "build_coverage": 0.05, "concentration_penalty": 0.10}, "fitness_v2_note": "concentration_penalty reemplaza a redundancy_penalty (v1): la version anterior penalizaba 1-build_coverage, colineal con el propio build_coverage; ahora penaliza la maxima cantidad de casos que comparten un mismo build, una senal independiente.", "warning": "Weights are academic assumptions; selected upgrades require specialist approval and new Gatling executions."}
     (options.output_dir / "methodology.json").write_text(json.dumps(methodology, indent=2, ensure_ascii=False), encoding="utf-8")
     with (options.output_dir / "fitness_history.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=history[0].keys()); writer.writeheader(); writer.writerows(history)

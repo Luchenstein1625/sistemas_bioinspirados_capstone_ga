@@ -3,7 +3,7 @@
 ## Selección bioinspirada de una cartera de validación para Gatling AI Performance Copilot
 
 **Asignatura:** Sistemas Bioinspirados - MIA 2026  
-**Integrantes:** [Completar]  
+**Integrantes:** Luis Araya, Rodrigo González, Hernán Medina  
 **Fecha:** 14 de septiembre de 2026
 
 ## Resumen

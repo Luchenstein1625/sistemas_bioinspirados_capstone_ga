@@ -4,7 +4,7 @@
 
 **Asignatura:** Sistemas Bioinspirados - MIA 2026  
 **Profesor:** Ricardo Contreras A.  
-**Integrantes:** [Completar]  
+**Integrantes:** Luis Araya, Rodrigo González, Hernán Medina  
 **Fecha:** 31 de agosto de 2026
 
 ## 1. Introducción

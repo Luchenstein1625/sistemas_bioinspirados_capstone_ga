@@ -1,3 +1,19 @@
+"""Carga y depuración de candidatos `upgrade` para el optimizador genético.
+
+Combina dos fuentes:
+  - `layered_recommendations.csv`: salida de `pde evaluate-complete` (Capstone
+    Gatling AI Performance Copilot) con la recomendación por build/cuadrante.
+  - `resultadoPruebasGatling.txt`: histórico corporativo de ancho fijo con la
+    evidencia real de ejecuciones Gatling (Estado, errorCount, p95, etc.).
+
+Solo sobreviven al filtro los candidatos con `action=upgrade`,
+`online_validation_status=pending_new_execution`, evidencia histórica
+`Estado=Success`, `Performance=1`, `errorCount=0` y `0 < p95 <= 1500 ms`.
+Estas condiciones son restricciones duras de factibilidad, no ponderaciones
+del fitness: un caso que no las cumple nunca entra al universo de búsqueda
+del algoritmo genético.
+"""
+
 from __future__ import annotations
 
 import csv
@@ -8,6 +24,8 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class Candidate:
+    """Un candidato `upgrade` factible, con su evidencia histórica asociada."""
+
     index: int
     build_id: str
     pilar: str
@@ -33,6 +51,12 @@ class Candidate:
 
     @property
     def historical_quality(self) -> float:
+        """Proxy de calidad histórica en [0,1]: combina estado, errores y p95.
+
+        No es una probabilidad de éxito calibrada ni un costo económico
+        observado; es un supuesto académico explícito, tal como se declara en
+        la Discusión y en `methodology.json`.
+        """
         status_score = 1.0 if self.status.lower() == "success" else 0.0
         error_score = 1.0 if self.error_count == 0 else max(0.0, 1.0 - self.error_count / 10.0)
         latency_score = max(0.0, min(1.0, 1.0 - self.p95_ms / 3_000.0))
@@ -40,6 +64,7 @@ class Candidate:
 
 
 def read_fixed_width(path: Path) -> list[dict[str, str]]:
+    """Lee el histórico de ancho fijo usando la fila de guiones como layout."""
     lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     spans = [match.span() for match in re.finditer(r"-+", lines[1])]
     names = [lines[0][start:end].strip() for start, end in spans]
@@ -58,6 +83,9 @@ def number(value: str, default: float = 0.0) -> float:
 
 
 def load_candidates(recommendations_path: Path, history_path: Path) -> list[Candidate]:
+    """Integra recomendaciones + histórico, aplica restricciones duras y
+    elimina duplicados por (build_id, cuadrante propuesto, configuración
+    propuesta). Retorna solo candidatos `upgrade` pendientes y seguros."""
     history = read_fixed_width(history_path)
     by_build: dict[str, list[dict[str, str]]] = {}
     for row in history:

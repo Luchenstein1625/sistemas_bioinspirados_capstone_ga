@@ -22,7 +22,8 @@
     "historical_quality": 0.2,
     "configuration_diversity": 0.1,
     "build_coverage": 0.05,
-    "redundancy_penalty": 0.1
+    "concentration_penalty": 0.1
   },
+  "fitness_v2_note": "concentration_penalty reemplaza a redundancy_penalty (v1): la version anterior penalizaba 1-build_coverage, colineal con el propio build_coverage; ahora penaliza la maxima cantidad de casos que comparten un mismo build, una senal independiente.",
   "warning": "Weights are academic assumptions; selected upgrades require specialist approval and new Gatling executions."
 }

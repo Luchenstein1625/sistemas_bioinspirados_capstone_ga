@@ -80,10 +80,18 @@ fitness = 0,30 × diversidad de pilar
         + 0,20 × calidad histórica
         + 0,10 × diversidad de configuración
         + 0,05 × cobertura de builds
-        - penalización por redundancia
+        - 0,10 × concentración máxima por build
 ```
 
 La calidad histórica usa `Estado`, errores y p95. Los pesos son supuestos académicos configurables, no costos bancarios demostrados.
+
+**Nota v2:** la versión original penalizaba `1 - cobertura de builds`, que es una
+función afín exacta de la propia cobertura de builds (con presupuesto fijo)
+y por lo tanto no aportaba un objetivo independiente. Se reemplazó por la
+concentración máxima (cuántos casos seleccionados comparten el build más
+repetido), que sí es información adicional: distingue una cartera con 20
+builds distintos pero varios casos duplicados por build de otra realmente
+sin repeticiones.
 
 ## Salidas
 
