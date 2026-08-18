@@ -1,0 +1,5 @@
+method,score
+random_mean,0.58507279
+quality_order,0.58990704
+greedy_transition,0.65794316
+aco,0.73070394

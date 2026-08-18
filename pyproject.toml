@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "capstone-validation-portfolio-ga"
-version = "1.0.0"
-description = "Selección genética de una cartera de validación para Gatling AI Performance Copilot"
+version = "1.1.0"
+description = "Selección genética y ordenamiento ACO para Gatling AI Performance Copilot"
 requires-python = ">=3.11"
 
 [project.scripts]
 capstone-portfolio-ga = "validation_portfolio.cli:main"
+capstone-portfolio-aco = "validation_portfolio.aco_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

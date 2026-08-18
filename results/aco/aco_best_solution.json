@@ -1,0 +1,15 @@
+{
+  "cases": 20,
+  "aco_best": 0.73070394,
+  "aco_mean": 0.72490467,
+  "aco_std": 0.00489401,
+  "random_mean": 0.58507279,
+  "quality_order": 0.58990704,
+  "greedy_transition": 0.65794316,
+  "best_components": {
+    "transition_efficiency": 0.66864035,
+    "early_coverage_auc": 0.725,
+    "early_quality": 0.95089173
+  },
+  "status": "pending_new_execution"
+}

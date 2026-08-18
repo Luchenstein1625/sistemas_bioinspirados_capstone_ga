@@ -1,0 +1,26 @@
+{
+  "purpose": "Order the 20 cases selected by GA; ACO does not re-select the portfolio.",
+  "config": {
+    "ants": 40,
+    "iterations": 100,
+    "alpha": 1.0,
+    "beta": 2.0,
+    "evaporation": 0.25,
+    "q": 1.0,
+    "elite_ants": 5
+  },
+  "runs": 10,
+  "seed": 42,
+  "objective_weights": {
+    "transition_efficiency": 0.5,
+    "early_coverage_auc": 0.35,
+    "early_quality": 0.15
+  },
+  "transition_proxy_weights": {
+    "parameter_distance": 0.35,
+    "quadrant_change": 0.25,
+    "pilar_change": 0.25,
+    "component_change": 0.15
+  },
+  "warning": "Transition costs are academic proxies, not observed duration or monetary cost. Gatling execution and human approval remain pending."
+}
